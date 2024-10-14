@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package session_manager;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "/internal/repository/pb/session_manager";
+
+enum MonthNumber {
+    UNSPECIFIED = 0;
+    january = 1;
+    february = 2;
+    march = 3;
+    april = 4;
+    may = 5;
+    june = 6;
+    july = 7;
+    august = 8;
+    september = 9;
+    october = 10;
+    november = 11;
+    december = 12;
+}
+
+message MonthNum {
+    string year = 1;
+    MonthNumber month = 2;
+    float hours = 3;
+}
+
+message Cadet {
+    int32 id = 1;
+    float total = 2;
+    repeated MonthNum month = 3;
+}
+
+message CadetsTimeResponse {
+    string message = 1;
+    repeated Cadet cadets = 2;
+}
+
+message CadetsTimeRequest {
+    int32 module_id = 1;
+    // string from_date = 2;
+    // string to_date = 3;
+    google.protobuf.Timestamp from_date = 2;
+    google.protobuf.Timestamp to_date = 3;
+}
+
+service SessionManager {
+    rpc GetCadetsTimeByModuleID(CadetsTimeRequest) returns (CadetsTimeResponse);
+}
